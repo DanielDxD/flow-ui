@@ -18,7 +18,7 @@ Flow UI brings the declarative power of modern mobile frameworks like SwiftUI to
 
 ## How it Works
 At its heart, Every component in Flow UI is a `View`. Unlike frameworks that re-render based on a global state tree diff, Flow UI uses a **Granular Rebuild System**:
-1. **State Tracking**: The `@AppState` and `@AppStorage` decorators wrap your class properties in a Reactive Proxy.
+1. **State Tracking**: The `@AppState`, `@AppStorage`, and `@SessionStorage` decorators wrap your class properties in a Reactive Proxy.
 2. **Subscription**: When a `View` is instantiated, it automatically subscribes to any decorated state properties it contains.
 3. **In-place Rebuild**: When a state property changes, only the specific `View` owning that state is rebuilt. The framework replaces the DOM node in-place, preserving parent-child relationships.
 4. **Focus Restoration**: To ensure a smooth typing experience, Flow UI tracks the `activeElement` and cursor position, restoring them automatically after a rebuild.
@@ -32,16 +32,17 @@ npm install flow-ui
 ## Quick Start
 
 ```typescript
-import { View, VStack, Text, Button, AppState, bootstrap } from "flow-ui";
+import { View, VStack, Text, Button, AppState, TextRole, bootstrap } from "flow-ui";
 
 class MyView extends View {
     @AppState private count = 0;
 
     public render() {
         return new VStack([
-            new Text(`Count: ${this.count}`)
-                .fontSize(24)
+            new Text("Counter App", TextRole.Heading1)
                 .fontWeight("bold"),
+            new Text(`Current count: ${this.count}`)
+                .fontSize(24),
             new Button("Increment", () => this.count++)
                 .backgroundColor("#3b82f6")
                 .color("white")
@@ -91,14 +92,23 @@ new VStack([ ... ])
 
 ### `Text`
 Standard text component.
-- `.fontSize(number|string)`
-- `.fontWeight(string|number)`
-- `.color(string)`
+- **Constructor**: `new Text(content: string, role?: TextRole)`
+- **Modifiers**:
+    - `.fontSize(number|string)`
+    - `.fontWeight(string|number)`
+    - `.color(string)`
+    - `.textAlignment("left" | "center" | "right" | "justify")`
+
+#### `TextRole`
+Defines the semantic HTML tag used for the text:
+- `TextRole.Text` -> `<p>` (Default)
+- `TextRole.Heading1` to `Heading6` -> `<h1>` to `<h6>`
 
 ### `Button`
-Interactive button.
-- `.disabled(boolean)`
-- `.onTap((e) => void)`
+Interactive button. Use the constructor to pass a click handler.
+- **Constructor**: `new Button(content: string | View, onClick?: (e: MouseEvent) => void)`
+- **Modifiers**:
+    - `.disabled(boolean)`
 
 ### `If`
 Conditional rendering.
@@ -136,7 +146,8 @@ Flow UI includes a suite of components designed for building forms with minimal 
 ```typescript
 new Form([
     new TextField("Username", this.username, (val) => this.username = val),
-    new SwitchInput("Dark Mode", this.isDark, (val) => this.isDark = val)
+    new SwitchInput("Dark Mode", this.isDark, (val) => this.isDark = val),
+    new Button("Submit", () => this.submitForm())
 ])
 ```
 
