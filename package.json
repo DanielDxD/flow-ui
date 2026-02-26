@@ -1,0 +1,37 @@
+{
+    "name": "flow-ui",
+    "version": "1.0.0",
+    "description": "A lightweight, declarative, SwiftUI-inspired UI framework for the web.",
+    "type": "module",
+    "main": "./dist/flow-ui.umd.js",
+    "module": "./dist/flow-ui.es.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/flow-ui.es.js",
+            "require": "./dist/flow-ui.umd.js"
+        }
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "lint": "eslint src/",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Daniel Lopes",
+    "license": "MIT",
+    "packageManager": "pnpm@10.30.2",
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@types/node": "^25.3.1",
+        "eslint": "^10.0.2",
+        "globals": "^17.3.0",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.56.1",
+        "vite": "^7.3.1",
+        "vite-plugin-dts": "^4.5.4"
+    },
+    "dependencies": {}
+}
