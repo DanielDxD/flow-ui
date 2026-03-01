@@ -2,34 +2,48 @@ import { Button } from "../lib/components/Button";
 import { HStack } from "../lib/components/HStack";
 import { Text } from "../lib/components/Text";
 import { View } from "../lib/core/View";
-import { AppState } from "../lib/state/decorator";
+import { AppState, ObservedObject } from "../lib/state/decorator";
 
+class CounterButtonViewModel {
+    @AppState public count: number;
+
+    public constructor(initialCount = 0) {
+        this.count = initialCount;
+    }
+
+    public increment() {
+        this.count++;
+    }
+
+    public decrement() {
+        this.count--;
+    }
+}
 export class CounterButton extends View {
-    @AppState
-    private count: number;
+    @ObservedObject private viewModel: CounterButtonViewModel;
 
     public constructor(initialCount = 0) {
         super();
-        this.count = initialCount;
+        this.viewModel = new CounterButtonViewModel(initialCount);
     }
 
     public render(): View {
         return new HStack([
             new Button("-", () => {
-                this.count--;
+                this.viewModel.decrement();
             })
                 .padding("10px 20px")
                 .fontSize(20)
                 .backgroundColor("#f0f0f0")
                 .cornerRadius(8),
 
-            new Text(`${this.count}`)
+            new Text(`${this.viewModel.count}`)
                 .fontSize(24)
                 .fontWeight("bold")
                 .padding("0 16px"),
 
             new Button("+", () => {
-                this.count++;
+                this.viewModel.increment();
             })
                 .padding("10px 20px")
                 .fontSize(20)

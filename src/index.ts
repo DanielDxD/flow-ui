@@ -3,7 +3,7 @@ export { bootstrap, render } from "./lib/core/render";
 export { View } from "./lib/core/View";
 
 // State
-export { AppState } from "./lib/state/decorator";
+export { AppState, ObservedObject } from "./lib/state/decorator";
 export { State } from "./lib/state/State";
 export { AppStorage, SessionStorage } from "./lib/state/storage";
 export { StorageState } from "./lib/state/StorageState";

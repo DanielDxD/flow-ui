@@ -26,13 +26,10 @@ describe("@AppState Decorator", () => {
         const element = view.build();
         expect(element.textContent).toBe("Count: 0");
 
-        // Mock parentNode to simulate DOM presence for rebuild
         const parent = document.createElement("div");
         parent.appendChild(element);
 
         view.count = 5;
-        // After state change, rebuild happens asynchronously (via subscriber)
-        // Actually View calls rebuild immediately on notify
         expect(parent.firstChild?.textContent).toBe("Count: 5");
     });
 });
