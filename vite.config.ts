@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
@@ -20,5 +21,11 @@ export default defineConfig({
             }
         }
     },
-    plugins: [dts({ insertTypesEntry: true })]
+    plugins: [dts({ insertTypesEntry: true })],
+    test: {
+        globals: true,
+        environment: "jsdom",
+        include: ["src/**/*.test.ts"],
+        setupFiles: ["./src/test/setup.ts"]
+    }
 });

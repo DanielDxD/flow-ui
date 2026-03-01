@@ -26,13 +26,13 @@ At its heart, Every component in Flow UI is a `View`. Unlike frameworks that re-
 ## Installation
 
 ```bash
-npm install flow-ui
+npm install @danielgl/flow-ui
 ```
 
 ## Quick Start
 
 ```typescript
-import { View, VStack, Text, Button, AppState, TextRole, bootstrap } from "flow-ui";
+import { View, VStack, Text, Button, AppState, TextRole, bootstrap } from "@danielgl/flow-ui";
 
 class MyView extends View {
     @AppState private count = 0;

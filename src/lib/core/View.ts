@@ -5,6 +5,7 @@ export abstract class View {
     protected _styles: Partial<CSSStyleDeclaration> = {};
     protected _classes: Set<string> = new Set();
     protected _events: Record<string, EventListener> = {};
+    protected _key: string | number | null = null;
 
     // Internal state tracking
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,6 +29,11 @@ export abstract class View {
      * Renders the View and applies the chained styles and events
      */
     public build(): HTMLElement {
+        // If already built, return the existing element (idempotency)
+        if (this._element) {
+            return this._element;
+        }
+
         this._lifecycleObserver?.disconnect();
         this._lifecycleObserver = null;
 
@@ -59,8 +65,7 @@ export abstract class View {
      * Minimal re-render logic. Swaps the internal DOM node in-place.
      */
     private rebuild(): void {
-        if (!this._element || !this._element.parentNode) {
-            // If the element isn't in the DOM yet, just rebuild it normally
+        if (!this._element) {
             this.build();
             return;
         }
@@ -77,11 +82,15 @@ export abstract class View {
         }
 
         const oldElement = this._element;
+        const parent = oldElement.parentNode;
+
+        // Clear the internal element to force a fresh build
+        this._element = null;
         const newElement = this.build(); // Rebuilds the UI with new state
 
-        // Replace the element in the actual DOM
-        if (oldElement.parentNode && oldElement !== newElement) {
-            oldElement.parentNode.replaceChild(newElement, oldElement);
+        // Replace the element in the actual DOM if it was attached
+        if (parent && oldElement !== newElement) {
+            parent.replaceChild(newElement, oldElement);
         }
 
         // --- Restore Focus State ---
@@ -248,5 +257,20 @@ export abstract class View {
     public onTap(handler: (e: MouseEvent) => void): this {
         this._events["click"] = handler as EventListener;
         return this;
+    }
+
+    /**
+     * Sets a unique key for the view, used for reconciliation in lists.
+     */
+    public key(value: string | number): this {
+        this._key = value;
+        return this;
+    }
+
+    /**
+     * Returns the view's unique key.
+     */
+    public get _viewKey(): string | number | null {
+        return this._key;
     }
 }

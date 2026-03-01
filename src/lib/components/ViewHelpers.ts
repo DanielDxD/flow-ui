@@ -1,17 +1,21 @@
 import { View } from "../core/View";
+import { ForEach as ForEachView } from "./ForEach";
 
 /**
- * Renders a list of items into a flat array of Views using a mapping function.
+ * A helper that returns a ForEach component.
  * Analogous to SwiftUI's ForEach.
  *
  * @example
- * new VStack(ForEach(["A", "B", "C"], (item) => new Text(item)))
+ * new VStack([
+ *   ForEach(["A", "B", "C"], (item) => new Text(item))
+ * ])
  */
 export function ForEach<T>(
     items: T[],
-    builder: (item: T, index: number) => View
-): View[] {
-    return items.map((item, index) => builder(item, index));
+    builder: (item: T, index: number) => View,
+    keySelector?: (item: T, index: number) => string | number
+): ForEachView<T> {
+    return new ForEachView<T>(items, builder, keySelector);
 }
 
 /**

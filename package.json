@@ -1,11 +1,14 @@
 {
-    "name": "flow-ui",
-    "version": "1.0.0",
+    "name": "@danielgl/flow-ui",
+    "version": "1.0.1",
     "description": "A lightweight, declarative, SwiftUI-inspired UI framework for the web.",
     "type": "module",
     "main": "./dist/flow-ui.umd.js",
     "module": "./dist/flow-ui.es.js",
     "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -17,24 +20,45 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "lint": "eslint src/",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "vitest run",
+        "prepare": "husky"
     },
-    "keywords": [],
+    "keywords": [
+        "web",
+        "framework",
+        "reactive",
+        "front-end",
+        "typescript",
+        "swift",
+        "UI"
+    ],
     "author": "Daniel Lopes",
     "license": "MIT",
     "packageManager": "pnpm@10.30.2",
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@types/jsdom": "^28.0.0",
         "@types/node": "^25.3.1",
         "eslint": "^10.0.2",
         "globals": "^17.3.0",
+        "husky": "^9.1.7",
+        "jsdom": "^28.1.0",
+        "lint-staged": "^16.3.1",
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.56.1",
         "vite": "^7.3.1",
-        "vite-plugin-dts": "^4.5.4"
+        "vite-plugin-dts": "^4.5.4",
+        "vitest": "^4.0.18"
     },
     "dependencies": {},
     "displayName": "Flow UI",
+    "lint-staged": {
+        "src/**/*.{ts,tsx}": [
+            "eslint --fix",
+            "vitest related --run"
+        ]
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/DanielDxD/flow-ui"
