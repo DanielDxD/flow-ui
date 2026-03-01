@@ -8,6 +8,11 @@ export { State } from "./lib/state/State";
 export { AppStorage, SessionStorage } from "./lib/state/storage";
 export { StorageState } from "./lib/state/StorageState";
 
+// Router
+export { Link } from "./lib/components/Link";
+export { Route } from "./lib/router/Route";
+export { Router } from "./lib/router/Router";
+
 // Components
 export { Button } from "./lib/components/Button";
 export { Container } from "./lib/components/Container";
